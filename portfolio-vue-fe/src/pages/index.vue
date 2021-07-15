@@ -1,40 +1,44 @@
 <template>
   <div class="bg-grey">
-    <VueTyper
-    :text='welcomeText'
-    initial-action='typing'
-    :pre-type-delay='70'
-    :type-delay='70'
-    :erase-on-complete='false'
-    caret-animation='blink'
-    />
+    <div class="textBlock">
+      <intro @completedIntro='completedIntro()'/>
+      
+    </div>
   </div>
 </template>
 
 <script>
 
-import { VueTyper } from 'vue-typer';
+import intro from '@/components/intro';
 export default {
   name: 'index',
   components: {
-    VueTyper,
+    intro
   },
   props: {},
   data: function () {
     return {
-        welcomeText:`Hi! I'm Alex`,
     }
   },
+  methods: {
+    completedIntro: function() {
+      console.log('completed')
+    }
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss">
 .bg-grey {
-    background: #292F36;
+  background: #292F36;
+  min-width:100vw;
+  min-height:100vh;
 }
 
 .bg-white {
-    background: #FFFFFF;
+  background: #FFFFFF;
+  min-width:100vw;
+  min-height:100vh;
 }
 </style>
