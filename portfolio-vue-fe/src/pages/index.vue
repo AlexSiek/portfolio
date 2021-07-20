@@ -1,28 +1,26 @@
 <template>
-  <div class="bg-grey">
-    <div class="textBlock">
-      <intro @completedIntro='completedIntro()'/>
-      
-    </div>
+  <div class="container-fluid">
+    <introJumbo @completedIntro="completedIntro()"/>
   </div>
 </template>
 
 <script>
 
-import intro from '@/components/intro';
+import introJumbo from '@/components/introJumbo';
 export default {
   name: 'index',
   components: {
-    intro
+    introJumbo
   },
   props: {},
   data: function () {
     return {
+      loaded: false,
     }
   },
   methods: {
     completedIntro: function() {
-      console.log('completed')
+      this.loaded = true;
     }
   }
 }
@@ -41,4 +39,25 @@ export default {
   min-width:100vw;
   min-height:100vh;
 }
+
+.slideFromLeft {
+  position: relative;
+  animation: 0.5s ease-out slideInLeftAnimation;
+}
+
+@keyframes slideInLeftAnimation {
+  0% {
+    transform: translate(-50%, 0%);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0%, 0%);
+    opacity: 1;
+  }
+}
+
+.op-0 {
+  opacity: 0;
+}
+
 </style>

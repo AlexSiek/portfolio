@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loaded" class="centering">
+    <div v-if="loaded" :class="className">
         <VueTyper
         :text='welcomeText[0]'
         initial-action='typing'
@@ -18,7 +18,7 @@
         :erase-on-complete='false'
         :repeat='0'
         caret-animation='blink'
-        @completed='$emit("completedIntro")'
+        @completed='completedTyping'
         />
     </div>
 </template>
@@ -36,10 +36,18 @@ export default {
     return {
       welcomeText:[`Hi!`,` I'm Alex`],
       loaded:false,
+      className:'centering',
     }
   },
   mounted: function() {
     setTimeout(()=>this.loaded = true,500)
+  },
+  methods: {
+    completedTyping: function() {
+      setTimeout(()=>this.className = 'typedPositioning',500)
+      setTimeout(()=>this.className = 'endPosition',1500)
+      setTimeout(()=>this.$emit("completedIntro"),500)
+    }
   }
 }
 </script>
@@ -47,17 +55,32 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 .centering {
-    position: absolute;
+    position: fixed;
     transform: translate(-50%, -50%);
-    animation: 0.5s ease-in slideFromBottom;
+    animation: 0.5s ease-out slideFromBottom;
     left: 50%;
     top: 50%;
+}
+
+.typedPositioning {
+  position: fixed;
+  transform: translate(-50%, -100%);
+  animation: 1s ease-out slideAndClear;
+  left: 50%;
+  top: 50%;
+  opacity: 0;
+}
+
+.endPosition {
+  position: relative;
+  animation: 0.5s ease-out slideIn;
 }
 
 .vue-typer {
   font-size:50px;
   .custom.char {
     color: #FFFFFF;
+    font-family: 'Orbitron', sans-serif;
   }
 }
 
@@ -68,6 +91,28 @@ export default {
   }
   100% {
     transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+@keyframes slideAndClear {
+  0% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translate(-50%, 0%);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0%, 0%);
     opacity: 1;
   }
 }
